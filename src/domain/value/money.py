@@ -23,4 +23,4 @@ class Money(Enum):
         for e in Money:
             if e.value == value:
                 return e
-        raise ValueError(f"{value} is not Money")
+        raise ValueError(f"{value}は未定義の値です")
