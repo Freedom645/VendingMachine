@@ -5,6 +5,7 @@ from PySimpleGUI import Element
 from core.util.array_util import convert_1d_to_2d
 from domain.entity.vending_machine import VendingMachine
 from domain.value.money import Money
+from presentation.component.drink_list_component import DrinkFrame
 
 
 class ElementKey(Enum):
@@ -20,6 +21,7 @@ class MainFrame:
 
     def __setup_layout(self) -> list[list[Element]]:
         layout = [
+            self.__generate_drink_box(),
             [sg.Text("投入金額: ¥0", key=ElementKey.EntryAmountText)],
             self.__generate_money_buttons(),
             [sg.Button(button_text="払戻し", key=ElementKey.RefundButton)],
@@ -27,6 +29,10 @@ class MainFrame:
         ]
 
         return layout
+
+    def __generate_drink_box(self) -> list:
+        drink_list = self.__vending_machine.get_drink_stock()
+        return [DrinkFrame(drink=rec[0], stock=rec[1]).build() for rec in drink_list]
 
     def __generate_money_buttons(self) -> list:
         list = [
