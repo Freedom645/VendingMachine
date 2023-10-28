@@ -1,3 +1,5 @@
+from domain.entity.drink import Drink
+from domain.repository.drink_repository import DrinkRepository
 from domain.value.money import Money
 
 
@@ -8,8 +10,11 @@ class VendingMachine:
         entry_money (int): 投入金額の総計
     """
 
-    def __init__(self) -> None:
+    def __init__(self, drink_repository: DrinkRepository) -> None:
         self.__entry_money = 0
+
+        self.__drink_repository = drink_repository
+        self.__drink_repository.add_drink(drink=Drink(name="コーラ", price=120), stock=5)
 
     def entry_money(self, money: Money) -> bool:
         """お金を投入する

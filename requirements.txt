@@ -1,3 +1,4 @@
 PySimpleGUI
 pytest
 pytest-cov
+injector
