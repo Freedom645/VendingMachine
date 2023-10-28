@@ -50,6 +50,14 @@ class VendingMachine:
         """
         return self.__entry_money
 
+    def get_drink_stock(self) -> list[tuple[Drink, int]]:
+        """飲物在庫一覧を取得する
+
+        Returns:
+            list[tuple[Drink, int]]: 飲物と在庫数のリスト
+        """
+        return self.__drink_repository.find_all()
+
     @staticmethod
     def usable_money_list() -> list[Money]:
         """自動販売機に利用可能なお金の種別リストを返す
