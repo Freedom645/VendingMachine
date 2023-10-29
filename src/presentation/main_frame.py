@@ -1,6 +1,7 @@
 from enum import Enum
 import PySimpleGUI as sg
 from PySimpleGUI import Element
+from injector import inject
 
 from core.util.array_util import convert_1d_to_2d
 from domain.entity.vending_machine import VendingMachine
@@ -16,6 +17,7 @@ class ElementKey(Enum):
 
 
 class MainFrame:
+    @inject
     def __init__(self, vending_machine: VendingMachine) -> None:
         self.__vending_machine = vending_machine
 

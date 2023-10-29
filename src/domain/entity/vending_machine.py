@@ -1,8 +1,11 @@
+from injector import inject, singleton
+
 from domain.entity.drink import Drink
 from domain.repository.drink_repository import DrinkRepository
 from domain.value.money import Money
 
 
+@singleton
 class VendingMachine:
     """自動販売機クラス
 
@@ -10,6 +13,7 @@ class VendingMachine:
         entry_money (int): 投入金額の総計
     """
 
+    @inject
     def __init__(self, drink_repository: DrinkRepository) -> None:
         self.__entry_money = 0
 

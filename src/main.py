@@ -1,30 +1,19 @@
-from typing import Callable, TypeVar
-from injector import Binder, Injector
+from injector import Injector
+from configurator import configurator
 
-from domain.entity.vending_machine import VendingMachine
 from domain.repository.drink_repository import DrinkRepository
 from infrastructure.repository.drink_repository_impl import DrinkRepositoryImpl
 from presentation.main_frame import MainFrame
 
 
-class DependencyBuilder:
-    def __init__(self):
-        self._injector = Injector(self.__class__.configure)
-
-    @classmethod
-    def configure(self, binder: Binder) -> None:
-        binder.bind(DrinkRepository, to=DrinkRepositoryImpl)
-
-    def __getitem__(self, klass: type[TypeVar("T")]) -> Callable:
-        return lambda: self._injector.get(klass)
-
-
 def main():
-    dependency = DependencyBuilder()
+    configurator.add(
+        lambda binder: binder.bind(DrinkRepository, to=DrinkRepositoryImpl)
+    )
 
-    vending_machine = VendingMachine(dependency[DrinkRepository]())
+    injector = Injector(configurator)
 
-    main_frame = MainFrame(vending_machine)
+    main_frame: MainFrame = injector.get(MainFrame)
     main_frame.launch()
 
 
