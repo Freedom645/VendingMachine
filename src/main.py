@@ -1,11 +1,19 @@
-from domain.entity.vending_machine import VendingMachine
+from injector import Injector
+from configurator import configurator
+
+from domain.repository.drink_repository import DrinkRepository
+from infrastructure.repository.drink_repository_impl import DrinkRepositoryImpl
 from presentation.main_frame import MainFrame
 
 
 def main():
-    vending_machine = VendingMachine()
+    configurator.add(
+        lambda binder: binder.bind(DrinkRepository, to=DrinkRepositoryImpl)
+    )
 
-    main_frame = MainFrame(vending_machine)
+    injector = Injector(configurator)
+
+    main_frame: MainFrame = injector.get(MainFrame)
     main_frame.launch()
 
 

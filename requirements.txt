@@ -1,3 +1,5 @@
 PySimpleGUI
+injector
 pytest
 pytest-cov
+pytest-mock

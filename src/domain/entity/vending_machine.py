@@ -1,6 +1,11 @@
+from injector import inject, singleton
+
+from domain.entity.drink import Drink
+from domain.repository.drink_repository import DrinkRepository
 from domain.value.money import Money
 
 
+@singleton
 class VendingMachine:
     """自動販売機クラス
 
@@ -8,8 +13,12 @@ class VendingMachine:
         entry_money (int): 投入金額の総計
     """
 
-    def __init__(self) -> None:
+    @inject
+    def __init__(self, drink_repository: DrinkRepository) -> None:
         self.__entry_money = 0
+
+        self.__drink_repository = drink_repository
+        self.__drink_repository.add_drink(drink=Drink(name="コーラ", price=120), stock=5)
 
     def entry_money(self, money: Money) -> bool:
         """お金を投入する
@@ -44,6 +53,14 @@ class VendingMachine:
             int: 投入金額
         """
         return self.__entry_money
+
+    def get_drink_stock(self) -> list[tuple[Drink, int]]:
+        """飲物在庫一覧を取得する
+
+        Returns:
+            list[tuple[Drink, int]]: 飲物と在庫数のリスト
+        """
+        return self.__drink_repository.find_all()
 
     @staticmethod
     def usable_money_list() -> list[Money]:
